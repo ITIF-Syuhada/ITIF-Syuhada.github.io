@@ -1,48 +1,67 @@
 ---
-repo: ITIF-Syuhada/ITIF-Syuhada.github.io
-media_path: ''
-website_url: https://itif-syuhada.github.io/
 collections:
-  - name: Keamanan Web dan Jaringan
-    git_path: ''
-    filename_pattern: ''
-    file_extension: .md
+  - file_extension: .md
+    filename_pattern: title
+    git_path: /src/content/posts
     metadata_schema:
       - name: title
-        type: title
         required: true
-  - name: Robotik dan IoT
-    git_path: ''
+        type: title
+      - name: description
+        type: multiline
+        required: false
+      - name: date
+        type: datetime
+        required: false
+      - name: categories
+        type: multi_select
+        required: false
+        allowed_values:
+          - Product Updates
+      - name: authors
+        type: multi_select
+        required: false
+        allowed_values:
+          - Sandikodev
+      - name: draft
+        type: boolean
+        required: false
+    name: Posts
+  - file_extension: .md
     filename_pattern: ''
-    file_extension: .md
+    git_path: ''
     metadata_schema:
       - name: title
-        type: title
         required: true
-  - name: Game Maker
-    git_path: ''
+        type: title
+    name: Robotik dan IoT
+  - file_extension: .md
     filename_pattern: ''
-    file_extension: .md
+    git_path: ''
     metadata_schema:
       - name: title
-        type: title
         required: true
-  - name: Showcases
-    git_path: ''
+        type: title
+    name: Game Maker
+  - file_extension: .md
     filename_pattern: ''
-    file_extension: .md
+    git_path: ''
     metadata_schema:
       - name: title
-        type: title
         required: true
-  - name: Kegiatan
-    git_path: ''
+        type: title
+    name: Showcases
+  - file_extension: .md
     filename_pattern: ''
-    file_extension: .md
+    git_path: ''
     metadata_schema:
       - name: title
-        type: title
         required: true
+        type: title
+    name: Kegiatan
+media_path: ''
+repo: ITIF-Syuhada/ITIF-Syuhada.github.io
+website_url: https://itif-syuhada.github.io/
 ---
 # GitCMS Configuration File
 > [!WARNING]
