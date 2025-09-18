@@ -1,49 +1,951 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+// src/pages/index.astro
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This
-				template serves as a lightweight, minimally-styled starting point for anyone looking to build
-				a personal website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITIF Syuhada - Belajar Komputer yang Seru untuk Anak SMP</title>
+    <meta name="description" content="Komunitas belajar komputer dan teknologi untuk anak SMP IT Masjid Syuhada. Belajar sambil bermain dengan nilai-nilai Islam!">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2563eb;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #2563eb;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            color: white;
+            padding: 150px 0 100px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='3'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            animation: slideInUp 0.8s ease-out;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: slideInUp 0.8s ease-out 0.2s both;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: #f59e0b;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: slideInUp 0.8s ease-out 0.4s both;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(245, 158, 11, 0.4);
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Section Styles */
+        .section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #6b7280;
+            margin-bottom: 4rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* About Section */
+        .about {
+            background: #f0f9ff;
+        }
+        
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        
+        .about-text h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+        
+        .about-text p {
+            margin-bottom: 1.5rem;
+            color: #6b7280;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .benefits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .benefit-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+            text-align: center;
+            transition: transform 0.3s ease;
+            border: 3px solid transparent;
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            border-color: #22c55e;
+        }
+        
+        .benefit-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .benefit-card h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+        }
+        
+        .benefit-card p {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+        
+        /* Programs Section */
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        
+        .program-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .program-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            border-color: #22c55e;
+        }
+        
+        .program-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .program-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+        
+        .program-card p {
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .program-features {
+            list-style: none;
+        }
+        
+        .program-features li {
+            margin-bottom: 0.8rem;
+            color: #059669;
+            font-weight: 500;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        .program-features li::before {
+            content: '😊';
+            position: absolute;
+            left: 0;
+        }
+        
+        /* Team Section */
+        .team {
+            background: #f0f9ff;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+        }
+        
+        .team-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .team-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .team-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+        
+        .team-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+        }
+        
+        .team-role {
+            color: #22c55e;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        
+        .team-card p {
+            color: #6b7280;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        /* Parents Section */
+        .parents {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        }
+        
+        .parents-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .parents h2 {
+            color: #92400e;
+            margin-bottom: 2rem;
+        }
+        
+        .parents-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .point-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+        }
+        
+        .point-card h4 {
+            color: #92400e;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .point-card p {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+        
+        /* Contact Section */
+        .contact {
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            color: white;
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        
+        .contact-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .contact-item span {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .social-link {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+            font-size: 1.5rem;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+        
+        .social-link:hover {
+            background: #22c55e;
+            transform: translateY(-3px);
+        }
+        
+        .contact-form {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-family: inherit;
+        }
+        
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #22c55e;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            background: #22c55e;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            background: #16a34a;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #111827;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .about-grid,
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="#" class="logo">ITIF Syuhada</a>
+                <ul class="nav-links">
+                    <li><a href="#about">Tentang Kami</a></li>
+                    <li><a href="#programs">Kegiatan</a></li>
+                    <li><a href="#team">Guru Pembina</a></li>
+                    <li><a href="#parents">Info Ortu</a></li>
+                    <li><a href="#contact">Hubungi</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Belajar Komputer yang Seru! 🎮</h1>
+                <p>Anak-anak SMP belajar teknologi sambil bermain dengan nilai-nilai Islam yang baik</p>
+                <a href="#programs" class="cta-button">Lihat Kegiatan Seru Kami!</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section about" id="about">
+        <div class="container">
+            <h2 class="section-title">Apa itu ITIF Syuhada? 🤔</h2>
+            <p class="section-subtitle">Komunitas belajar komputer dan teknologi yang menyenangkan untuk anak-anak SMP, dengan bimbingan nilai-nilai Islam yang baik</p>
+            
+            <div class="about-grid">
+                <div class="about-text">
+                    <h3>Kenapa Harus Ikut? 🌟</h3>
+                    <p>Di zaman sekarang, anak-anak perlu tahu teknologi biar nggak ketinggalan. Tapi jangan khawatir, Ayah Bunda! Kami belajarnya pelan-pelan, sambil bermain, dan tetap dengan akhlak yang baik.</p>
+                    
+                    <h3>Yang Kami Lakukan 🎯</h3>
+                    <p>Anak-anak akan diajak belajar membuat website sederhana, bermain dengan robot kecil, dan belajar cara aman menggunakan internet. Semuanya dikemas dengan cara yang menyenangkan!</p>
+                </div>
+                
+                <div class="benefits">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🎮</div>
+                        <h4>Belajar Sambil Main</h4>
+                        <p>Anak nggak akan bosen karena belajarnya kayak main game!</p>
+                    </div>
+                    
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🤝</div>
+                        <h4>Banyak Teman Baru</h4>
+                        <p>Ketemu teman-teman yang punya hobi sama dengan teknologi</p>
+                    </div>
+                    
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🕌</div>
+                        <h4>Tetap Islami</h4>
+                        <p>Semua kegiatan tetap sesuai dengan nilai-nilai Islam yang baik</p>
+                    </div>
+                    
+                    <div class="benefit-card">
+                        <div class="benefit-icon">👨‍🏫</div>
+                        <h4>Guru yang Sabar</h4>
+                        <p>Ustadz dan ustadzah yang sabar dan pengertian dengan anak-anak</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Programs Section -->
+    <section class="section" id="programs">
+        <div class="container">
+            <h2 class="section-title">Kegiatan Seru Kami! 🎉</h2>
+            <p class="section-subtitle">Jangan khawatir, semua kegiatan ini mudah kok! Anak-anak akan diajari dari dasar dengan cara yang menyenangkan</p>
+            
+            <div class="programs-grid">
+                <div class="program-card">
+                    <div class="program-icon">🧩</div>
+                    <h3>Belajar Logika</h3>
+                    <p>Anak-anak diajari cara berpikir seperti detektif untuk memecahkan masalah. Seru kayak main puzzle!</p>
+                    <ul class="program-features">
+                        <li>Main teka-teki yang seru</li>
+                        <li>Belajar pola-pola menarik</li>
+                        <li>Latihan berpikir sistematis</li>
+                        <li>Bermain dengan angka dan logika</li>
+                    </ul>
+                </div>
+                
+                <div class="program-card">
+                    <div class="program-icon">🌐</div>
+                    <h3>Bikin Website Sendiri</h3>
+                    <p>Anak-anak akan belajar membuat halaman web sederhana, seperti blog pribadi atau profil kelas</p>
+                    <ul class="program-features">
+                        <li>Buat halaman web pertama</li>
+                        <li>Kasih warna dan gambar</li>
+                        <li>Bikin website yang bagus di HP</li>
+                        <li>Belajar desain yang menarik</li>
+                    </ul>
+                </div>
+                
+                <div class="program-card">
+                    <div class="program-icon">🤖</div>
+                    <h3>Main sama Robot</h3>
+                    <p>Bermain dengan robot kecil dan sensor pintar. Anak-anak bisa bikin lampu otomatis!</p>
+                    <ul class="program-features">
+                        <li>Kenalan dengan robot kecil</li>
+                        <li>Bikin lampu nyala otomatis</li>
+                        <li>Eksperimen dengan sensor</li>
+                        <li>Buat project rumah pintar mini</li>
+                    </ul>
+                </div>
+                
+                <div class="program-card">
+                    <div class="program-icon">🛡️</div>
+                    <h3>Internet yang Aman</h3>
+                    <p>Belajar cara pakai internet dengan aman dan bijak, sesuai dengan ajaran Islam</p>
+                    <ul class="program-features">
+                        <li>Tips aman berselancar di internet</li>
+                        <li>Cara melindungi data pribadi</li>
+                        <li>Etika berinternet yang baik</li>
+                        <li>Hindari konten yang tidak baik</li>
+                    </ul>
+                </div>
+                
+                <div class="program-card">
+                    <div class="program-icon">📱</div>
+                    <h3>Jadi Content Creator</h3>
+                    <p>Belajar bikin konten positif di media sosial untuk dakwah dan edukasi</p>
+                    <ul class="program-features">
+                        <li>Bikin video edukasi sederhana</li>
+                        <li>Kelola Instagram dan TikTok sekolah</li>
+                        <li>Nulis caption yang menarik</li>
+                        <li>Sharing ilmu ke teman-teman</li>
+                    </ul>
+                </div>
+                
+                <div class="program-card">
+                    <div class="program-icon">💻</div>
+                    <h3>Jadi Teknisi Kecil</h3>
+                    <p>Belajar dasar-dasar komputer dan jaringan, seperti cara mengatasi wifi bermasalah</p>
+                    <ul class="program-features">
+                        <li>Kenalan dengan sistem komputer</li>
+                        <li>Cara setting wifi dan internet</li>
+                        <li>Tips merawat komputer</li>
+                        <li>Bantu orang tua dengan masalah teknis</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Parents Section -->
+    <section class="section parents" id="parents">
+        <div class="container">
+            <div class="parents-content">
+                <h2 class="section-title">Pesan Untuk Ayah Bunda 👨‍👩‍👧‍👦</h2>
+                <p class="section-subtitle">Kami tahu kekhawatiran Ayah Bunda. Teknologi memang penting, tapi tetap harus sesuai dengan nilai-nilai keluarga kita</p>
+                
+                <div class="parents-points">
+                    <div class="point-card">
+                        <h4>🛡️ Aman dan Terkontrol</h4>
+                        <p>Semua kegiatan diawasi langsung oleh ustadz dan ustadzah. Anak-anak belajar teknologi yang baik dan bermanfaat</p>
+                    </div>
+                    
+                    <div class="point-card">
+                        <h4>📚 Sesuai Usia SMP</h4>
+                        <p>Materi disesuaikan dengan kemampuan anak SMP. Tidak terlalu rumit, fokus pada hal-hal dasar yang penting</p>
+                    </div>
+                    
+                    <div class="point-card">
+                        <h4>🕌 Nilai-nilai Islam</h4>
+                        <p>Setiap pembelajaran selalu dikaitkan dengan akhlak dan adab Islami. Teknologi untuk kebaikan umat</p>
+                    </div>
+                    
+                    <div class="point-card">
+                        <h4>👥 Belajar Kelompok</h4>
+                        <p>Anak-anak belajar bersama teman-temannya, jadi tidak sendirian dan bisa saling membantu</p>
+                    </div>
+                    
+                    <div class="point-card">
+                        <h4>💡 Skill Masa Depan</h4>
+                        <p>Bekal untuk anak menghadapi dunia kerja masa depan yang pasti membutuhkan kemampuan teknologi</p>
+                    </div>
+                    
+                    <div class="point-card">
+                        <h4>📞 Laporan Berkala</h4>
+                        <p>Ayah Bunda akan mendapat laporan perkembangan anak secara berkala melalui WhatsApp grup</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="section team" id="team">
+        <div class="container">
+            <h2 class="section-title">Guru Pembina Kami 👨‍🏫</h2>
+            <p class="section-subtitle">Tim pengajar yang berpengalaman dan sabar dalam membimbing anak-anak</p>
+            
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-avatar">👨‍🏫</div>
+                    <h3>Ustadz Sandiko</h3>
+                    <div class="team-role">Koordinator Utama</div>
+                    <p>Bertanggung jawab memastikan semua kegiatan berjalan sesuai rencana dan tetap selaras dengan nilai-nilai Islam. Berpengalaman membimbing anak-anak SMP dengan sabar dan pengertian.</p>
+                </div>
+                
+                <div class="team-card">
+                    <div class="team-avatar">👨‍💻</div>
+                    <h3>Ustadz Ada Kurnia</h3>
+                    <div class="team-role">Pembina Teknis</div>
+                    <p>Ahli dalam bidang teknologi yang mengajar dengan cara mudah dipahami. Memastikan anak-anak belajar teknologi dari dasar dengan benar dan aman.</p>
+                </div>
+                
+                <div class="team-card">
+                    <div class="team-avatar">👩‍🏫</div>
+                    <h3>Ustadzah Yunita</h3>
+                    <div class="team-role">Pembina Karakter</div>
+                    <p>Fokus pada pengembangan karakter dan emosional anak. Memastikan setiap anak merasa nyaman, termotivasi, dan berkembang dengan baik.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section contact" id="contact">
+        <div class="container">
+            <h2 class="section-title" style="color: white;">Yuk, Gabung dengan Kami! 🚀</h2>
+            <p class="section-subtitle" style="color: rgba(255,255,255,0.8);">Daftarkan anak Anda sekarang! Jangan khawatir, kami akan ajari dari dasar dengan sabar</p>
+            
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>Hubungi Kami</h3>
+                    
+                    <div class="contact-item">
+                        <span>🏫</span>
+                        <div>
+                            <strong>Lokasi Kegiatan</strong><br>
+                            SMP IT Masjid Syuhada<br>
+                            Yogyakarta
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <span>💌</span>
+                        <div>
+                            <strong>Email</strong><br>
+                            itif.syuhada@gmail.com
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <span>🕐</span>
+                        <div>
+                            <strong>Waktu Kegiatan</strong><br>
+                            Setiap Sabtu, 14:00 - 16:00 WIB<br>
+                            <small>(2 jam yang menyenangkan!)</small>
+                        </div>
+                    </div>
+                    
+                    <div class="social-links">
+                        <a href="https://instagram.com/itif.syuhada" class="social-link" title="Instagram">📷</a>
+                        <a href="https://tiktok.com/@itif.syuhada" class="social-link" title="TikTok">🎵</a>
+                        <a href="https://youtube.com/@itif.syuhada" class="social-link" title="YouTube">📺</a>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <h3>Daftar Anak Anda Sekarang! 📝</h3>
+                    <form>
+                        <div class="form-group">
+                            <label for="parent_name">Nama Ayah/Bunda</label>
+                            <input type="text" id="parent_name" name="parent_name" placeholder="Nama Ayah atau Bunda" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="child_name">Nama Anak</label>
+                            <input type="text" id="child_name" name="child_name" placeholder="Nama lengkap anak" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">No. WhatsApp</label>
+                            <input type="tel" id="phone" name="phone" placeholder="08123456789" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="class">Kelas Anak</label>
+                            <input type="text" id="class" name="class" placeholder="Contoh: 7A, 8B, 9C" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Pesan atau Pertanyaan</label>
+                            <textarea id="message" name="message" rows="4" placeholder="Ada pertanyaan tentang kegiatan ini? Atau mau cerita tentang minat anak terhadap teknologi?"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">💬 Kirim via WhatsApp</button>
+                        <p style="font-size: 0.9rem; margin-top: 1rem; opacity: 0.8;">
+                            *Anda akan dialihkan ke WhatsApp untuk chat langsung dengan pembina
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 ITIF Syuhada - SMP IT Masjid Syuhada. Semua hak cipta dilindungi.</p>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.7;">
+                Belajar teknologi dengan hati yang baik 💚
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Form submission handler
+        document.querySelector('.contact-form form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Create WhatsApp message with parent-friendly language
+            const message = `
+Assalamualaikum, Ustadz/Ustadzah 🙏
+
+Saya ingin mendaftarkan anak saya untuk ikut kegiatan ITIF Syuhada:
+
+👨‍👩‍👧‍👦 Nama Orang Tua: ${data.parent_name}
+👶 Nama Anak: ${data.child_name}  
+📱 No. WhatsApp: ${data.phone}
+🎒 Kelas: ${data.class}
+
+${data.message ? `💭 Pesan: ${data.message}` : ''}
+
+Mohon informasinya tentang kegiatan ini. Terima kasih! 😊
+            `;
+            
+            // Open WhatsApp with the message (ganti nomor sesuai kebutuhan)
+            const whatsappUrl = `https://wa.me/62XXXXXXXXXX?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+            
+            // Reset form
+            this.reset();
+            alert('Terima kasih! Anda akan dialihkan ke WhatsApp untuk chat dengan pembina kami. 😊');
+        });
+
+        // Add navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+            }
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'slideInUp 0.6s ease-out forwards';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards and sections
+        document.querySelectorAll('.program-card, .team-card, .benefit-card, .point-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Add some fun interactions
+        document.querySelectorAll('.program-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                const icon = this.querySelector('.program-icon');
+                icon.style.transform = 'scale(1.1) rotate(5deg)';
+                icon.style.transition = 'transform 0.3s ease';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                const icon = this.querySelector('.program-icon');
+                icon.style.transform = 'scale(1) rotate(0deg)';
+            });
+        });
+
+        // Welcome message for parents
+        setTimeout(function() {
+            console.log('Selamat datang di ITIF Syuhada! 🎉');
+            console.log('Website ini dibuat khusus untuk Ayah Bunda yang ingin anaknya belajar teknologi dengan cara yang menyenangkan dan Islami.');
+        }, 2000);
+    </script>
+</body>
 </html>

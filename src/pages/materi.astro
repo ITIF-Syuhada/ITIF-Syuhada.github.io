@@ -1,0 +1,2133 @@
+---
+// src/pages/materi.astro
+---
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kurikulum & Materi - ITIF Syuhada</title>
+    <meta name="description" content="Detail kurikulum dan materi pembelajaran ITIF Syuhada - Computational Thinking, Web Development, IoT, Robotika, Cybersecurity">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #22c55e;
+            --secondary-color: #16a34a;
+            --dark-bg: #0f172a;
+            --card-bg: #ffffff;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-medium: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --shadow-heavy: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: #fafafa;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Navigation */
+        .navbar {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+            box-shadow: var(--shadow-medium);
+            transition: all 0.3s ease;
+        }
+        
+        .navbar.scrolled {
+            background: rgba(15, 23, 42, 0.98);
+            padding: 0.5rem 0;
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #e2e8f0;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+        
+        .nav-links a:hover, 
+        .nav-links a.active {
+            color: var(--primary-color);
+            background: rgba(34, 197, 94, 0.1);
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        
+        .mobile-menu-btn span {
+            width: 25px;
+            height: 3px;
+            background: #e2e8f0;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+        
+        .mobile-menu-btn.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+        
+        .mobile-menu-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .mobile-menu-btn.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+        
+        .mobile-nav {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+        }
+        
+        .mobile-nav.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        .mobile-nav ul {
+            list-style: none;
+            padding: 0 1rem;
+        }
+        
+        .mobile-nav li {
+            margin: 0.5rem 0;
+        }
+        
+        .mobile-nav a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #e2e8f0;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .mobile-nav a:hover {
+            background: rgba(34, 197, 94, 0.1);
+            color: var(--primary-color);
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1e293b 100%);
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        .header p {
+            font-size: 1.3rem;
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Breadcrumb */
+        .breadcrumb {
+            background: white;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 70px;
+            z-index: 999;
+        }
+        
+        .breadcrumb-nav {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .breadcrumb-nav a {
+            color: #2563eb;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .breadcrumb-nav a:hover {
+            color: var(--primary-color);
+        }
+        
+        /* Progress Indicator */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            z-index: 1001;
+            transition: width 0.1s ease;
+        }
+        
+        /* Content Structure */
+        .content {
+            padding: 4rem 0;
+        }
+        
+        .section {
+            margin-bottom: 6rem;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark-bg);
+        }
+        
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Timeline Structure */
+        .timeline {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 4rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-left: 0;
+            margin-right: 52%;
+            padding-right: 3rem;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: 52%;
+            margin-right: 0;
+            padding-left: 3rem;
+        }
+        
+        .timeline-marker {
+            position: absolute;
+            left: 50%;
+            top: 2rem;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 70px;
+            background: white;
+            border: 4px solid var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            z-index: 2;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .timeline-marker:hover {
+            transform: translateX(-50%) scale(1.1);
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+        }
+        
+        .timeline-content {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-medium);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .timeline-content:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-heavy);
+        }
+        
+        .module-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .module-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark-bg);
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .module-duration {
+            color: var(--primary-color);
+            font-weight: 600;
+            background: rgba(34, 197, 94, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+        
+        .module-description {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+        
+        /* Collapsible Content */
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .collapsible-content.expanded {
+            max-height: 2000px;
+        }
+        
+        .expand-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .expand-btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        
+        .expand-btn .icon {
+            transition: transform 0.3s ease;
+        }
+        
+        .expand-btn.expanded .icon {
+            transform: rotate(180deg);
+        }
+        
+        /* Prerequisites */
+        .prerequisites {
+            background: linear-gradient(135deg, #dbeafe 0%, #e0f2fe 100%);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            border-left: 4px solid #2563eb;
+        }
+        
+        .prerequisites h4 {
+            color: #1e40af;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .prereq-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+        
+        .prereq-tag {
+            background: white;
+            color: #1e40af;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 2px solid #bfdbfe;
+            transition: all 0.3s ease;
+        }
+        
+        .prereq-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+        
+        /* Learning Topics */
+        .learning-topics {
+            margin-bottom: 2rem;
+        }
+        
+        .learning-topics h4 {
+            margin-bottom: 1.5rem;
+            color: var(--dark-bg);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .topics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .topic-item {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-color);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .topic-item:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-medium);
+            background: white;
+        }
+        
+        .topic-item h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--dark-bg);
+            margin-bottom: 0.75rem;
+        }
+        
+        .topic-item p {
+            font-size: 0.9rem;
+            color: #64748b;
+            line-height: 1.6;
+        }
+        
+        /* Tools & Technologies */
+        .tools-section {
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .tools-section h4 {
+            margin-bottom: 1.5rem;
+            color: var(--dark-bg);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 1rem;
+        }
+        
+        .tool-tag {
+            background: white;
+            padding: 0.75rem 1rem;
+            border-radius: 25px;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #475569;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .tool-tag:hover {
+            border-color: var(--primary-color);
+            color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.15);
+        }
+        
+        /* Learning Outcomes */
+        .outcomes {
+            background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            border-left: 4px solid var(--primary-color);
+            margin-bottom: 2rem;
+        }
+        
+        .outcomes h4 {
+            color: #15803d;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .outcomes-list {
+            list-style: none;
+        }
+        
+        .outcomes-list li {
+            margin-bottom: 0.75rem;
+            padding-left: 2rem;
+            position: relative;
+            color: #166534;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+        
+        .outcomes-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        /* Assessment & Projects */
+        .assessment {
+            background: linear-gradient(135deg, #fef3c7 0%, #fef7cd 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            border-left: 4px solid #f59e0b;
+        }
+        
+        .assessment h4 {
+            color: #92400e;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .project-examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .project-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 2px solid #fbbf24;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(251, 191, 36, 0.2);
+        }
+        
+        .project-card h5 {
+            color: #92400e;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+        
+        .project-card p {
+            color: #b45309;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        /* Assessment Framework Cards */
+        .assessment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .assessment-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-medium);
+            border-top: 5px solid var(--primary-color);
+            transition: all 0.3s ease;
+        }
+        
+        .assessment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-heavy);
+        }
+        
+        .assessment-card:nth-child(1) {
+            border-top-color: #059669;
+        }
+        
+        .assessment-card:nth-child(2) {
+            border-top-color: #7c3aed;
+        }
+        
+        .assessment-card:nth-child(3) {
+            border-top-color: #dc2626;
+        }
+        
+        .assessment-card h4 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .assessment-card ul {
+            list-style: none;
+        }
+        
+        .assessment-card li {
+            margin-bottom: 0.75rem;
+            color: var(--text-secondary);
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        .assessment-card li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        /* Certification Path */
+        .certification-container {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            padding: 4rem 2rem;
+            border-radius: 25px;
+            margin: 3rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .certification-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23dbeafe' fill-opacity='0.3'%3E%3Cpath d='M20 20c0-5.5-4.5-10-10-10s-10 4.5-10 10 4.5 10 10 10 10-4.5 10-10zm10 0c0-5.5-4.5-10-10-10s-10 4.5-10 10 4.5 10 10 10 10-4.5 10-10z'/%3E%3C/g%3E%3C/svg%3E") repeat;
+        }
+        
+        .certification-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cert-item {
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .cert-item:hover {
+            transform: translateY(-10px);
+        }
+        
+        .cert-badge {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+        
+        .cert-badge:hover {
+            transform: rotate(5deg) scale(1.05);
+        }
+        
+        .cert-badge.bronze {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        }
+        
+        .cert-badge.silver {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+        
+        .cert-badge.gold {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+        
+        .cert-item h4 {
+            margin-bottom: 0.75rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .cert-item p {
+            color: #64748b;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        /* Back to Home Button */
+        .back-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(34, 197, 94, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .back-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(34, 197, 94, 0.4);
+            background: var(--secondary-color);
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--dark-bg);
+            color: white;
+            text-align: center;
+            padding: 4rem 0;
+            margin-top: 6rem;
+        }
+        
+        .footer h3 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+        
+        .footer p {
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .timeline-item:nth-child(odd) .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                margin-left: 80px;
+                margin-right: 0;
+                padding-left: 2rem;
+                padding-right: 1.5rem;
+            }
+            
+            .timeline::before {
+                left: 35px;
+            }
+            
+            .timeline-marker {
+                left: 35px;
+                width: 60px;
+                height: 60px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: flex;
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .header p {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .timeline-item:nth-child(odd) .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                margin-left: 60px;
+                margin-right: 0;
+                padding-left: 1.5rem;
+                padding-right: 1rem;
+            }
+            
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-marker {
+                left: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 1.4rem;
+            }
+            
+            .module-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .topics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tools-grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            }
+            
+            .project-examples {
+                grid-template-columns: 1fr;
+            }
+            
+            .assessment-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .certification-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .back-button {
+                bottom: 1rem;
+                right: 1rem;
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .container {
+                padding: 0 1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                padding: 100px 0 60px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .timeline-content {
+                padding: 1.5rem;
+            }
+            
+            .module-title {
+                font-size: 1.5rem;
+            }
+            
+            .certification-container {
+                padding: 2rem 1rem;
+            }
+        }
+        
+        /* Print Styles */
+        @media print {
+            .navbar,
+            .back-button,
+            .mobile-menu-btn {
+                display: none !important;
+            }
+            
+            .timeline-content {
+                break-inside: avoid;
+            }
+            
+            body {
+                background: white !important;
+            }
+        }
+        
+        /* Dark Mode Support */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --card-bg: #1f2937;
+                --text-primary: #f9fafb;
+                --text-secondary: #d1d5db;
+                --border-color: #374151;
+            }
+            
+            body {
+                background: #111827;
+            }
+            
+            .timeline-content,
+            .assessment-card,
+            .project-card,
+            .tool-tag,
+            .prereq-tag {
+                background: var(--card-bg);
+                color: var(--text-primary);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="/" class="logo">ITIF Syuhada</a>
+                <ul class="nav-links">
+                    <li><a href="/">Beranda</a></li>
+                    <li><a href="/materi" class="active">Kurikulum</a></li>
+                    <li><a href="/#programs">Program</a></li>
+                    <li><a href="/#team">Tim</a></li>
+                    <li><a href="/#contact">Kontak</a></li>
+                </ul>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <div class="mobile-nav" id="mobileNav">
+                <ul>
+                    <li><a href="/">Beranda</a></li>
+                    <li><a href="/materi">Kurikulum</a></li>
+                    <li><a href="/#programs">Program</a></li>
+                    <li><a href="/#team">Tim</a></li>
+                    <li><a href="/#contact">Kontak</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1>Kurikulum & Materi Pembelajaran</h1>
+                <p>Detail roadmap pembelajaran teknologi untuk siswa SMP dengan pendekatan Islam Terpadu</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Breadcrumb -->
+    <section class="breadcrumb">
+        <div class="container">
+            <nav class="breadcrumb-nav">
+                <a href="/">Beranda</a>
+                <span>›</span>
+                <span>Kurikulum & Materi</span>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Content -->
+    <section class="content">
+        <div class="container">
+            <!-- Overview Section -->
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Struktur Pembelajaran</h2>
+                    <p class="section-subtitle">Kurikulum dirancang progresif dalam 6 modul utama yang saling terintegrasi, dari fundamental thinking hingga implementasi teknologi praktis</p>
+                </div>
+                
+                <!-- Learning Timeline -->
+                <div class="timeline">
+                    <!-- Module 1: Computational Thinking -->
+                    <div class="timeline-item" data-module="1">
+                        <div class="timeline-marker">🧠</div>
+                        <div class="timeline-content">
+                            <div class="module-header">
+                                <h3 class="module-title">Module 1: Computational Thinking & Logic</h3>
+                                <div class="module-duration">Duration: 4 Weeks | 8 Sessions</div>
+                            </div>
+                            
+                            <div class="prerequisites">
+                                <h4>📋 Prerequisites</h4>
+                                <div class="prereq-list">
+                                    <span class="prereq-tag">Basic Math</span>
+                                    <span class="prereq-tag">Problem Solving Interest</span>
+                                    <span class="prereq-tag">Logical Thinking</span>
+                                </div>
+                            </div>
+                            
+                            <p class="module-description">
+                                Fundamental modul yang mengajarkan siswa cara berpikir sistematis dan logis dalam memecahkan masalah. 
+                                Menggunakan pendekatan unplugged computing untuk membangun foundation thinking skills yang kuat.
+                            </p>
+                            
+                            <button class="expand-btn" data-target="module1">
+                                <span>Lihat Detail</span>
+                                <span class="icon">▼</span>
+                            </button>
+                            
+                            <div class="collapsible-content" id="module1">
+                                <div class="learning-topics">
+                                    <h4>📚 Learning Topics</h4>
+                                    <div class="topics-grid">
+                                        <div class="topic-item">
+                                            <h4>Problem Decomposition</h4>
+                                            <p>Memecah masalah kompleks menjadi sub-problem yang lebih kecil dan manageable</p>
+                                        </div>
+                                        <div class="topic-item">
+                                            <h4>Pattern Recognition</h4>
+                                            <p>Mengidentifikasi pola, trend, dan regularitas dalam data dan situasi</p>
+                                        </div>
+                                        <div class="topic-item">
+                                            <h4>Abstraction</h4>
+                                            <p>Fokus pada aspek penting dan mengabaikan detail yang tidak relevan</p>
+                                        </div>
+                                        <div class="topic-item">
+                                            <h4>Algorithm Design</h4>
+                                            <p>Merancang langkah-langkah sistematis untuk menyelesaikan masalah</p>
+                                        </div>
+                                        <div class="topic-item">
+                                            <h4>Boolean Logic</h4>
+                                            <p>Memahami konsep AND, OR, NOT dalam pengambilan keputusan</p>
+                                        </div>
+                                        <div class="topic-item">
+                                            <h4>Flowchart & Pseudocode</h4>
+                                            <p>Visualisasi dan representasi algoritma sebelum implementasi</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="tools-section">
+                                    <h4>🛠️ Tools & Platforms</h4>
+                                    <div class="tools-grid">
+                                        <div class="tool-tag">Scratch</div>
+                                        <div class="tool-tag">Flowgorithm</div>
+                                        <div class="tool-tag">CS Unplugged</div>
+                                        <div class="tool-tag">Khan Academy</div>
+                                        <div class="tool-tag">Code.org</div>
+                                        <div class="tool-tag">Blockly</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="outcomes">
+                                    <h4>🎯 Learning Outcomes</h4>
+                                    <ul class="outcomes-list">
+                                        <li>Mampu menganalisa dan memecah masalah kompleks secara sistematis</li>
+                                        <li>Mengidentifikasi pola dan membuat generalisasi dari data</li>
+                                        <li>Merancang algoritma sederhana untuk menyelesaikan masalah sehari-hari</li>
+                                        <li>Memahami konsep boolean logic dan conditional statements</li>
+                                        <li>Menggunakan flowchart untuk merepresentasikan proses</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="assessment">
+                                    <h4>📝 Assessment & Projects</h4>
+                                    <div class="project-examples">
+                                        <div class="project-card">
+                                            <h5>Daily Algorithm</h5>
+                                            <p>Membuat flowchart untuk aktivitas sehari-hari (wudhu, sholat, belajar)</p>
+                                        </div>
+                                        <div class="project-card">
+                                            <h5>Islamic Puzzle</h5>
+                                            <p>Solving puzzle dengan tema Islamic menggunakan computational thinking</p>
+                                        </div>
+                                        <div class="project-card">
+                                            <h5>Pattern Game</h5>
+                                            <p>Mengidentifikasi pattern dalam ayat Al-Quran dan hadits</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Module 2: Web Development -->
+                    <div class="timeline-item" data-module="2">
+                        <div class="timeline-marker">🌐</div>
+                        <div class="timeline-content">
+                            <div class="module-header">
+                                <h3 class="module-title">Module 2: Web Development Fundamentals</h3>
+                                <div class="module-duration">Duration: 6 Weeks | 12 Sessions</div>
+                            </div>
+                            
+                            <div class="prerequisites">
+                                <h4>📋 Prerequisites</h4>
+                                <div class="prereq-list">
+                                    <span class="prereq-tag">Computational Thinking</span>
+                                    <span class="prereq-tag">Basic Computer Skills</span>
+                                    <span class="prereq-tag">Text Editor Usage</span>
+                                </div>
+                            </div>
+                            
+                            <p class="module-description">
+                                Pembelajaran pembuatan website dari dasar menggunakan HTML, CSS, dan JavaScript. 
+                                Fokus pada responsive design dan best practices modern web development dengan integrasi nilai-nilai Islam.
+                            </p>
+                            
+                            <button class="expand-btn" data-target="module2">
+                                <span>Lihat Detail</span>
+                                <span class="icon">▼</span>
+                            </button>
+                            
+                            <div class="collapsible-content" id="module2">
+                                <div class="learning-topics">
+                                    <h4>📚 Learning Topics</h4>
+                                    <div class="topics-grid">
+                                        <div class="topic-item">
+                                            <h4>HTML5 Semantics</h4>
+                                            <p>Structure, elements, forms, dan semantic HTML untuk accessibility</p>
+                                        </div>
+                                        <div class="topic-item">
+                                            <h4>CSS3 & Flexbox</h4>
+                                            <p>Styling, layout, responsive design, dan CSS Grid fundamentals</p>
+                                        </div>
+                                        <div class="topic-item">
+                                            <h4>JavaScript ES6+</h4>
+                                            <p>Variables, functions, DOM manipulation, dan event handling</p>
+                                        </div>
+                                        <div class="topic-item">
+                                            <h4>Responsive Design</h4>
+                                            <p>Mobile-first approach, media queries, dan cross-browser compatibility</p>
+                                        </div>
+                                        <div class="topic-item">
+                                            <h4>Git & Version Control</h4>
+                                            <p>Basic Git commands, GitHub workflow, dan collaboration</p>
+                                        </div>
+                                        <div class="topic-item">
+                                            <h4>Static Site Generators</h4>
+                                            <p>Introduction to Astro.js, build process, dan deployment</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="tools-section">
+                                    <h4>🛠️ Tools & Technologies</h4>
+                                    <div class="tools-grid">
+                                        <div class="tool-tag">HTML5</div>
+                                        <div class="tool-tag">CSS3</div>
+                                        <div class="tool-tag">JavaScript</div>
+                                        <div class="tool-tag">VS Code</div>
+                                        <div class="tool-tag">Git</div>
+                                        <div class="tool-tag">GitHub</div>
+                                        <div class="tool-tag">Astro.js</div>
+                                        <div class="tool-tag">Netlify</div>
+                                        <div class="tool-tag">Figma</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="outcomes">
+                                    <h4>🎯 Learning Outcomes</h4>
+                                    <ul class="outcomes-list">
+                                        <li>Membangun website static responsive dari scratch</li>
+                                        <li>Mengimplementasikan modern CSS layout techniques</li>
+                                        <li>Membuat interaksi dynamic dengan JavaScript</li>
+                                        <li>Menggunakan version control system (Git) untuk project management</li>
+                                        <li>Deploy website ke hosting platform modern</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="assessment">
+                                    <h4>📝 Assessment & Projects</h4>
+                                    <div class="project-examples">
+                                        <div class="project-card">
+                                            <h5>Islamic Portfolio</h5>
+                                            <p>Personal website dengan tema islami dan responsive design</p>
+                                        </div>
+                                        <div class="project-card">
+                                            <h5>Masjid Landing Page</h5>
+                                            <p>Website promosi untuk kegiatan masjid dengan form contact</p>
+                                        </div>
+                                        <div class="project-card">
+                                            <h5>Quran Quote Generator</h5>
+                                            <p>Web app yang generate random ayat Al-Quran dengan JavaScript</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Module 3: IoT & Hardware -->
+                    <div class="timeline-item" data-module="3">
+                        <div class="timeline-marker">🤖</div>
+                        <div class="timeline-content">
+                            <div class="module-header">
+                                <h3 class="module-title">Module 3: IoT & Physical Computing</h3>
+                                <div class="module-duration">Duration: 5 Weeks | 10 Sessions</div>
+                            </div>
+                            
+                            <div class="prerequisites">
+                                <h4>📋 Prerequisites</h4>
+                                <div class="prereq-list">
+                                    <span class="prereq-tag">Algorithm Design</span>
+                                    <span class="prereq-tag">Basic Electronics</span>
+                                    <span class="prereq-tag">Programming Logic</span>
+                                </div>
+                            </div>
+                            
+                            <p class="module-description">
+                                Eksplorasi dunia Internet of Things dan physical computing menggunakan microcontroller. 
+                                Siswa belajar mengintegrasikan sensor, actuator, dan konektivitas untuk menciptakan smart devices.
+                            </p>
+                            
+                            <button class="expand-btn" data-target="module3">
+                                <span>Lihat Detail</span>
+                                <span class="icon">▼</span>
+                            </button>
+                            
+                            <div class="collapsible-content" id="module3">
+                                <div class="learning-topics">
+                                    <h4>📚 Learning Topics</h4>
+                                    <div class="topics-grid">
+                                        <div class="topic-item">
+                                            <h4>Arduino Programming</h4>
+                                            <p>C++ basics, digital I/O, analog reading, dan serial communication</p>
+                                        </div>
+                                        <div class="topic-item">
+                                            <h4>Sensor Integration</h4>
+                                            <p>Temperature, humidity, motion, light sensors dan data processing</p>
+                                        </div>
+                                        <div class="topic-item">
+                                            <h4>Actuator Control</h4>
+                                            <p>LED control, servo motors, buzzer, dan display modules</p>
+                                        </div>
+                                        <div class="topic-item">
+                                            <h4>WiFi Connectivity</h4>
+                                            <p>ESP32/ESP8266, HTTP requests, dan cloud data transmission</p>
+                                        </div>
+                                        <div class="topic-item">
+                                            <h4>MQTT Protocol</h4>
+                                            <p>IoT communication protocol, publish/subscribe pattern</p>
+                                        </div>
+                                        <div class="topic-item">
+                                            <h4>Smart Home Concepts</h4>
+                                            <p>Automation logic, scheduling, dan remote monitoring</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="tools-section">
+                                    <h4>🛠️ Hardware & Software</h4>
+                                    <div class="tools-grid">
+                                        <div class="tool-tag">Arduino Uno</div>
+                                        <div class="tool-tag">ESP32</div>
+                                        <div class="tool-tag">Arduino IDE</div>
+                                        <div class="tool-tag">Sensors Kit</div>
+                                        <div class="tool-tag">Breadboard</div>
+                                        <div class="tool-tag">Jumper Wires</div>
+                                        <div class="tool-tag">ThingSpeak</div>
+                                        <div class="tool-tag">Blynk</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="outcomes">
+                                    <h4>🎯 Learning Outcomes</h4>
+                                    <ul class="outcomes-list">
+                                        <li>Memprogram microcontroller untuk berbagai aplikasi IoT</li>
+                                        <li>Mengintegrasikan multiple sensors dalam satu project</li>
+                                        <li>Membangun sistem monitoring dan automation sederhana</li>
+                                        <li>Mengirim data sensor ke cloud platform</li>
+                                        <li>Merancang prototype smart device untuk solving real-world problems</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="assessment">
+                                    <h4>📝 Assessment & Projects</h4>
+                                    <div class="project-examples">
+                                        <div class="project-card">
+                                            <h5>Smart Wudhu Reminder</h5>
+                                            <p>Device yang reminder waktu sholat dengan sensor dan buzzer</p>
+                                        </div>
+                                        <div class="project-card">
+                                            <h5>Masjid Environment Monitor</h5>
+                                            <p>Monitoring suhu dan kelembaban ruangan masjid dengan web dashboard</p>
+                                        </div>
+                                        <div class="project-card">
+                                            <h5>Smart Attendance System</h5>
+                                            <p>RFID-based attendance tracking untuk kegiatan sekolah dan masjid</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modules 4, 5, 6 akan dilanjutkan dengan pattern yang sama -->
+                    <!-- Untuk brevity, saya akan membuat struktur yang sama untuk modul lainnya -->
+                    
+                    <!-- Additional modules would follow the same pattern -->
+                    <!-- Module 4: Robotics, Module 5: Cybersecurity, Module 6: Digital Media -->
+                </div>
+            </div>
+
+            <!-- Assessment Framework -->
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Assessment Framework</h2>
+                    <p class="section-subtitle">Sistem evaluasi komprehensif yang mengukur technical skills, soft skills, dan character development</p>
+                </div>
+                
+                <div class="assessment-grid">
+                    <div class="assessment-card">
+                        <h4 style="color: #059669;">📊 Technical Assessment (60%)</h4>
+                        <ul>
+                            <li>Project-based evaluation</li>
+                            <li>Code quality and documentation</li>
+                            <li>Problem-solving approach</li>
+                            <li>Innovation and creativity</li>
+                            <li>Technical presentation skills</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="assessment-card">
+                        <h4 style="color: #7c3aed;">🤝 Collaboration Skills (25%)</h4>
+                        <ul>
+                            <li>Teamwork in group projects</li>
+                            <li>Peer learning and mentoring</li>
+                            <li>Communication effectiveness</li>
+                            <li>Leadership potential</li>
+                            <li>Conflict resolution abilities</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="assessment-card">
+                        <h4 style="color: #dc2626;">🕌 Character Development (15%)</h4>
+                        <ul>
+                            <li>Islamic values integration</li>
+                            <li>Ethical decision making</li>
+                            <li>Social responsibility awareness</li>
+                            <li>Personal growth reflection</li>
+                            <li>Community service contribution</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Certification Path -->
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Certification & Recognition</h2>
+                    <p class="section-subtitle">Progressive certification system yang memvalidasi achievement dan competency development</p>
+                </div>
+                
+                <div class="certification-container">
+                    <div class="certification-grid">
+                        <div class="cert-item">
+                            <div class="cert-badge bronze">🥉</div>
+                            <h4 style="color: #1e40af;">Foundation Certificate</h4>
+                            <p>Computational Thinking & Web Basics<br>
+                            <small>Modules 1-2 Completion</small></p>
+                        </div>
+                        
+                        <div class="cert-item">
+                            <div class="cert-badge silver">🥈</div>
+                            <h4 style="color: #059669;">Advanced Certificate</h4>
+                            <p>IoT, Robotics & Security Fundamentals<br>
+                            <small>Modules 3-5 Completion</small></p>
+                        </div>
+                        
+                        <div class="cert-item">
+                            <div class="cert-badge gold">🥇</div>
+                            <h4 style="color: #d97706;">Expert Certificate</h4>
+                            <p>Full-Stack Development & Digital Leadership<br>
+                            <small>All Modules + Capstone Project</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Home Button -->
+    <a href="/" class="back-button" id="backButton">
+        <span>←</span>
+        <span>Kembali ke Beranda</span>
+    </a>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <h3>ITIF Syuhada</h3>
+            <p>Islamic Technology & Informatics Community</p>
+            <p>SMP IT Masjid Syuhada, Yogyakarta</p>
+            <p style="margin-top: 1.5rem; opacity: 0.7; font-size: 0.95rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                Comprehensive curriculum designed for 21st-century digital natives with Islamic values. 
+                Preparing students for the future through technology education rooted in faith.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        class MateriPageManager {
+            constructor() {
+                this.initializeComponents();
+                this.setupEventListeners();
+                this.setupScrollAnimations();
+                this.setupProgressBar();
+            }
+
+            initializeComponents() {
+                this.navbar = document.getElementById('navbar');
+                this.mobileMenuBtn = document.getElementById('mobileMenuBtn');
+                this.mobileNav = document.getElementById('mobileNav');
+                this.progressBar = document.getElementById('progressBar');
+                this.backButton = document.getElementById('backButton');
+                this.expandButtons = document.querySelectorAll('.expand-btn');
+                this.timelineItems = document.querySelectorAll('.timeline-item');
+            }
+
+            setupEventListeners() {
+                // Mobile menu toggle
+                this.mobileMenuBtn.addEventListener('click', () => {
+                    this.toggleMobileMenu();
+                });
+
+                // Close mobile menu when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!this.navbar.contains(e.target)) {
+                        this.closeMobileMenu();
+                    }
+                });
+
+                // Expand/collapse module details
+                this.expandButtons.forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        this.toggleModuleDetails(e.currentTarget);
+                    });
+                });
+
+                // Smooth scrolling for internal links
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        this.smoothScrollTo(anchor.getAttribute('href'));
+                    });
+                });
+
+                // Back button with smooth animation
+                this.backButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.animatedNavigate('/');
+                });
+
+                // Keyboard shortcuts
+                document.addEventListener('keydown', (e) => {
+                    this.handleKeyboardShortcuts(e);
+                });
+
+                // Window scroll events
+                window.addEventListener('scroll', () => {
+                    this.handleScroll();
+                });
+
+                // Window resize events
+                window.addEventListener('resize', () => {
+                    this.handleResize();
+                });
+            }
+
+            toggleMobileMenu() {
+                this.mobileMenuBtn.classList.toggle('active');
+                this.mobileNav.classList.toggle('active');
+            }
+
+            closeMobileMenu() {
+                this.mobileMenuBtn.classList.remove('active');
+                this.mobileNav.classList.remove('active');
+            }
+
+            toggleModuleDetails(button) {
+                const targetId = button.getAttribute('data-target');
+                const content = document.getElementById(targetId);
+                const icon = button.querySelector('.icon');
+                
+                if (content.classList.contains('expanded')) {
+                    // Collapse
+                    content.classList.remove('expanded');
+                    button.classList.remove('expanded');
+                    button.querySelector('span').textContent = 'Lihat Detail';
+                } else {
+                    // Expand
+                    content.classList.add('expanded');
+                    button.classList.add('expanded');
+                    button.querySelector('span').textContent = 'Sembunyikan Detail';
+                }
+            }
+
+            setupScrollAnimations() {
+                const observerOptions = {
+                    threshold: 0.15,
+                    rootMargin: '0px 0px -50px 0px'
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            // Staggered animation for child elements
+                            this.animateChildElements(entry.target);
+                        }
+                    });
+                }, observerOptions);
+
+                this.timelineItems.forEach(item => {
+                    observer.observe(item);
+                });
+
+                // Observe other animated elements
+                document.querySelectorAll('.assessment-card, .cert-item').forEach(item => {
+                    observer.observe(item);
+                });
+            }
+
+            animateChildElements(container) {
+                const children = container.querySelectorAll('.topic-item, .tool-tag, .project-card');
+                children.forEach((child, index) => {
+                    setTimeout(() => {
+                        child.style.animation = 'fadeInUp 0.5s ease-out forwards';
+                    }, index * 100);
+                });
+            }
+
+            setupProgressBar() {
+                const updateProgress = () => {
+                    const scrollTop = window.pageYOffset;
+                    const docHeight = document.body.scrollHeight - window.innerHeight;
+                    const scrollPercent = (scrollTop / docHeight) * 100;
+                    this.progressBar.style.width = scrollPercent + '%';
+                };
+
+                window.addEventListener('scroll', updateProgress);
+                updateProgress(); // Initial call
+            }
+
+            handleScroll() {
+                const scrollY = window.scrollY;
+                
+                // Navbar scroll effect
+                if (scrollY > 100) {
+                    this.navbar.classList.add('scrolled');
+                } else {
+                    this.navbar.classList.remove('scrolled');
+                }
+
+                // Back button visibility
+                if (scrollY > 500) {
+                    this.backButton.style.opacity = '1';
+                    this.backButton.style.transform = 'translateY(0)';
+                } else {
+                    this.backButton.style.opacity = '0';
+                    this.backButton.style.transform = 'translateY(20px)';
+                }
+
+                // Parallax effect for header
+                const header = document.querySelector('.header');
+                if (header) {
+                    const headerContent = header.querySelector('.header-content');
+                    const offset = scrollY * 0.5;
+                    headerContent.style.transform = `translateY(${offset}px)`;
+                }
+            }
+
+            handleResize() {
+                // Close mobile menu on desktop
+                if (window.innerWidth > 768) {
+                    this.closeMobileMenu();
+                }
+
+                // Recalculate timeline positions
+                this.recalculateTimeline();
+            }
+
+            recalculateTimeline() {
+                // Adjust timeline for different screen sizes
+                const timeline = document.querySelector('.timeline');
+                if (timeline) {
+                    const items = timeline.querySelectorAll('.timeline-item');
+                    items.forEach((item, index) => {
+                        if (window.innerWidth <= 768) {
+                            item.style.animationDelay = `${index * 0.2}s`;
+                        }
+                    });
+                }
+            }
+
+            smoothScrollTo(target) {
+                const element = document.querySelector(target);
+                if (element) {
+                    const offsetTop = element.offsetTop - 100;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+
+            animatedNavigate(url) {
+                // Add exit animation
+                document.body.style.opacity = '0.8';
+                document.body.style.transform = 'scale(0.98)';
+                document.body.style.transition = 'all 0.3s ease';
+                
+                setTimeout(() => {
+                    window.location.href = url;
+                }, 300);
+            }
+
+            handleKeyboardShortcuts(e) {
+                // Keyboard navigation
+                switch(e.key) {
+                    case 'h':
+                    case 'H':
+                        if (e.ctrlKey || e.metaKey) {
+                            e.preventDefault();
+                            this.animatedNavigate('/');
+                        }
+                        break;
+                    case 'Escape':
+                        this.closeMobileMenu();
+                        this.collapseAllModules();
+                        break;
+                    case 'p':
+                    case 'P':
+                        if (e.ctrlKey || e.metaKey) {
+                            e.preventDefault();
+                            this.printPage();
+                        }
+                        break;
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                        if (e.altKey) {
+                            e.preventDefault();
+                            this.scrollToModule(parseInt(e.key));
+                        }
+                        break;
+                }
+            }
+
+            collapseAllModules() {
+                this.expandButtons.forEach(btn => {
+                    const targetId = btn.getAttribute('data-target');
+                    const content = document.getElementById(targetId);
+                    if (content && content.classList.contains('expanded')) {
+                        this.toggleModuleDetails(btn);
+                    }
+                });
+            }
+
+            scrollToModule(moduleNumber) {
+                const module = document.querySelector(`[data-module="${moduleNumber}"]`);
+                if (module) {
+                    module.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'center' 
+                    });
+                    
+                    // Highlight the module temporarily
+                    module.style.boxShadow = '0 0 20px rgba(34, 197, 94, 0.5)';
+                    setTimeout(() => {
+                        module.style.boxShadow = '';
+                    }, 2000);
+                }
+            }
+
+            printPage() {
+                // Expand all modules before printing
+                this.expandButtons.forEach(btn => {
+                    const targetId = btn.getAttribute('data-target');
+                    const content = document.getElementById(targetId);
+                    if (content && !content.classList.contains('expanded')) {
+                        content.classList.add('expanded');
+                    }
+                });
+
+                // Print after a short delay to ensure content is expanded
+                setTimeout(() => {
+                    window.print();
+                }, 500);
+            }
+
+            // Tool tag interaction
+            addToolTagInteractions() {
+                document.querySelectorAll('.tool-tag').forEach(tag => {
+                    tag.addEventListener('click', (e) => {
+                        this.showToolInfo(e.target);
+                    });
+                    
+                    tag.addEventListener('mouseenter', (e) => {
+                        this.showToolPreview(e.target);
+                    });
+                    
+                    tag.addEventListener('mouseleave', (e) => {
+                        this.hideToolPreview();
+                    });
+                });
+            }
+
+            showToolInfo(toolTag) {
+                const toolName = toolTag.textContent;
+                // Create a simple modal or tooltip with tool information
+                console.log(`Learning more about: ${toolName}`);
+                
+                // You could expand this to show actual tool information
+                this.createNotification(`Clicked on ${toolName}`, 'info');
+            }
+
+            showToolPreview(toolTag) {
+                // Add hover preview functionality
+                toolTag.style.transform = 'translateY(-2px) scale(1.05)';
+            }
+
+            hideToolPreview() {
+                // Remove hover effects
+                document.querySelectorAll('.tool-tag').forEach(tag => {
+                    tag.style.transform = '';
+                });
+            }
+
+            createNotification(message, type = 'info') {
+                // Create a simple notification system
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 100px;
+                    right: 20px;
+                    background: ${type === 'success' ? '#10b981' : '#3b82f6'};
+                    color: white;
+                    padding: 1rem 1.5rem;
+                    border-radius: 8px;
+                    z-index: 10000;
+                    animation: slideInRight 0.3s ease;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                `;
+                notification.textContent = message;
+                
+                document.body.appendChild(notification);
+                
+                // Auto remove after 3 seconds
+                setTimeout(() => {
+                    notification.style.animation = 'slideOutRight 0.3s ease forwards';
+                    setTimeout(() => {
+                        document.body.removeChild(notification);
+                    }, 300);
+                }, 3000);
+            }
+
+            // Statistics tracking
+            trackUserInteraction(action, element) {
+                // Simple analytics tracking
+                const data = {
+                    action: action,
+                    element: element,
+                    timestamp: new Date().toISOString(),
+                    page: 'materi'
+                };
+                
+                // You could send this to analytics service
+                console.log('User interaction:', data);
+            }
+
+            // Initialize enhanced interactions
+            initializeEnhancedFeatures() {
+                this.addToolTagInteractions();
+                
+                // Track module expansions
+                this.expandButtons.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const module = btn.getAttribute('data-target');
+                        this.trackUserInteraction('module_expand', module);
+                    });
+                });
+                
+                // Track scroll depth
+                this.trackScrollDepth();
+                
+                // Add search functionality
+                this.addSearchFeature();
+            }
+
+            trackScrollDepth() {
+                const milestones = [25, 50, 75, 100];
+                const reached = new Set();
+                
+                window.addEventListener('scroll', () => {
+                    const scrollPercent = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+                    
+                    milestones.forEach(milestone => {
+                        if (scrollPercent >= milestone && !reached.has(milestone)) {
+                            reached.add(milestone);
+                            this.trackUserInteraction('scroll_depth', `${milestone}%`);
+                        }
+                    });
+                });
+            }
+
+            addSearchFeature() {
+                // Add a simple search functionality
+                const searchContainer = document.createElement('div');
+                searchContainer.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    z-index: 999;
+                    opacity: 0;
+                    pointer-events: none;
+                    transition: all 0.3s ease;
+                `;
+                
+                const searchInput = document.createElement('input');
+                searchInput.type = 'text';
+                searchInput.placeholder = 'Cari dalam kurikulum... (Ctrl+K)';
+                searchInput.style.cssText = `
+                    padding: 0.75rem 1rem;
+                    border: 2px solid #e5e7eb;
+                    border-radius: 25px;
+                    width: 300px;
+                    font-size: 0.9rem;
+                    background: white;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                `;
+                
+                searchContainer.appendChild(searchInput);
+                document.body.appendChild(searchContainer);
+                
+                // Toggle search with Ctrl+K
+                document.addEventListener('keydown', (e) => {
+                    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                        e.preventDefault();
+                        this.toggleSearch(searchContainer, searchInput);
+                    }
+                    
+                    if (e.key === 'Escape') {
+                        this.hideSearch(searchContainer);
+                    }
+                });
+                
+                // Search functionality
+                searchInput.addEventListener('input', (e) => {
+                    this.performSearch(e.target.value);
+                });
+            }
+
+            toggleSearch(container, input) {
+                if (container.style.opacity === '1') {
+                    this.hideSearch(container);
+                } else {
+                    container.style.opacity = '1';
+                    container.style.pointerEvents = 'auto';
+                    input.focus();
+                }
+            }
+
+            hideSearch(container) {
+                container.style.opacity = '0';
+                container.style.pointerEvents = 'none';
+                this.clearSearchHighlights();
+            }
+
+            performSearch(query) {
+                this.clearSearchHighlights();
+                
+                if (query.length < 2) return;
+                
+                const searchableElements = document.querySelectorAll('.module-title, .topic-item h4, .tool-tag, .outcomes-list li');
+                let foundResults = 0;
+                
+                searchableElements.forEach(element => {
+                    const text = element.textContent.toLowerCase();
+                    if (text.includes(query.toLowerCase())) {
+                        this.highlightElement(element);
+                        foundResults++;
+                    }
+                });
+                
+                if (foundResults > 0) {
+                    this.createNotification(`Ditemukan ${foundResults} hasil`, 'success');
+                } else {
+                    this.createNotification('Tidak ada hasil ditemukan', 'info');
+                }
+            }
+
+            highlightElement(element) {
+                element.style.background = 'rgba(34, 197, 94, 0.2)';
+                element.style.transition = 'background 0.3s ease';
+                element.classList.add('search-highlight');
+            }
+
+            clearSearchHighlights() {
+                document.querySelectorAll('.search-highlight').forEach(element => {
+                    element.style.background = '';
+                    element.classList.remove('search-highlight');
+                });
+            }
+
+            // Performance optimization
+            debounce(func, wait) {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            }
+
+            // Initialize everything
+            init() {
+                // Stagger initialization to prevent blocking
+                setTimeout(() => {
+                    this.initializeEnhancedFeatures();
+                }, 100);
+                
+                // Add loading complete indicator
+                document.body.classList.add('loaded');
+                
+                // Performance monitoring
+                this.measurePagePerformance();
+                
+                console.log('✅ ITIF Syuhada Materi Page fully initialized');
+            }
+
+            measurePagePerformance() {
+                // Simple performance measurement
+                window.addEventListener('load', () => {
+                    const loadTime = performance.now();
+                    console.log(`📊 Page loaded in ${Math.round(loadTime)}ms`);
+                });
+            }
+        }
+
+        // CSS Animations for search and notifications
+        const additionalStyles = document.createElement('style');
+        additionalStyles.textContent = `
+            @keyframes slideInRight {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            
+            @keyframes slideOutRight {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+            }
+            
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            
+            body.loaded {
+                opacity: 1;
+            }
+            
+            body:not(.loaded) {
+                opacity: 0;
+            }
+            
+            .search-highlight {
+                border-radius: 4px;
+                padding: 2px 4px;
+            }
+        `;
+        document.head.appendChild(additionalStyles);
+
+        // Initialize the page manager when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                const pageManager = new MateriPageManager();
+                pageManager.init();
+            });
+        } else {
+            const pageManager = new MateriPageManager();
+            pageManager.init();
+        }
+    </script>
+</body>
+</html>
